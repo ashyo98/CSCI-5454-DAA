@@ -1,0 +1,243 @@
+\documentclass[12pt]{article}
+\usepackage{blindtext}
+%%\usepackage{parskip}
+% \usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{graphs,quotes,arrows.meta}
+\usepackage{algorithm}
+\usepackage{forloop}
+\usepackage[noend]{algpseudocode}
+\usepackage[english]{babel}
+% \usepackage{amsthm}
+% \usepackage{amsfonts}
+% \usepackage{tikz}
+% \usepackage[plain]{algorithm}
+% \usepackage{algpseudocode}
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\title{CSCI 5454: Algorithms: Homework 1}
+\author{Ashutosh Gandhi}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 1}
+
+% Question
+
+\subsection*{1.1 Part A} 
+
+% Sub question
+\vspace{10pt}
+
+% \textbf{Soln:} 
+
+% Solution.
+
+\textbf{To prove the loop invariant}  \(a=sa_{0}+tb_{0}\) and 
+\(b=\hat{s}a_{0}+\hat{t}b_{0}\)
+\\ \\
+\textbf{Base Case} At the first encounter of the loop head we have \(s=1\),
+ \(\hat{s}=0 \), \(t=0\), \(\hat{t}=1\) and we also have \(a=a_{0}\) and \(b=b_{0}\)
+\\ \\
+substituting these values into our loop invariant equations we get 
+\\
+ \(a=1*a_{0}+0*b_{0}\)    \qquad       \(b=0*a_{0}+1*b_{0}\)
+\\ 
+ \(a=a_{0}\)         \qquad        \(b=b_{0}\)
+ \\
+ Thus the invariant is trivially true
+ \\ \\
+ \textbf{Induction step} Let the relation \(a=sa_{0}+tb_{0}\) and 
+\(b=\hat{s}a_{0}+\hat{t}b_{0}\) hold true for the $i^{th}$ iteration. Then for the \(i+1^{th}\) iteration we have the variables \(a^{\prime}, b^{\prime}, s^{\prime}, t^{\prime}, \hat{s}^{\prime}, \hat{t}^{\prime}\)
+\\ \\ 
+The relation here is \\ \(a^{\prime}=b, b^{\prime}=a\%b, s^{\prime}=\hat{s}, t^{\prime}=\hat{t}, \hat{s}^{\prime}=s-(\lfloor a/b \rfloor*\hat{s}) , \hat{t}^{\prime}=t-(\lfloor a/b \rfloor*\hat{t}) \) $-->$ \textcircled{1}
+\\
+The goal is to establish \(a^{\prime}=s^{\prime}a_{0}+t^{\prime}b_{0} \quad and \quad b^{\prime}=\hat{s}^{\prime}a_{0}+\hat{t}^{\prime}b_{0}\)
+\\
+\begin{equation}
+\begin{aligned}
+s^{\prime}a_{0}+t^{\prime}b_{0}&=\hat{s}a_{0}+\hat{t}b_{0} \quad [from \textcircled{1} \quad s^{\prime}=\hat{s}, t^{\prime}=\hat{t}] \\
+\qquad &=b \quad [from \quad induction \quad step] \nonumber \\
+\qquad &=a^{\prime} \quad [from \textcircled{1} \quad a^{\prime}=b]
+\end{aligned}
+\end{equation}
+\begin{equation}
+\begin{aligned}
+\hat{s}^{\prime}a_{0}+\hat{t}^{\prime}b_{0}&=(s-\lfloor a/b \rfloor*\hat{s})a_{0} + (t-(\lfloor a/b \rfloor*\hat{t})b_{0} \quad [from \textcircled{1}] \\
+&=sa_{0} + tb_{0} - \lfloor a/b \rfloor(\hat{s}a_{0}+\hat{t}b_{0}) \quad simplifying \\
+&=a-\lfloor a/b \rfloor*b \quad [from \quad induction \quad step] \nonumber \\
+&=a\%b \quad [because \quad a=quo*b + rem; \quad rem=a-quo*b] \\
+&=b^{\prime} \quad [from \textcircled{1} \quad b^{\prime}=a\%b] 
+\end{aligned}
+\end{equation} 
+\\
+Thus, we have proven the desired loop invariant by establishing our goal \(a^{\prime}=s^{\prime}a_{0}+t^{\prime}b_{0} \quad and \quad b^{\prime}=\hat{s}^{\prime}a_{0}+\hat{t}^{\prime}b_{0}\)
+
+\subsection*{1.2 Part B} 
+
+% Sub question
+\vspace{10pt}
+
+To prove gcd(a,b) is the smallest positive number that can be written in the form \(sa+tb\) i.e. \textbf{\(gcd(a,b)=sa+tb\)}
+\\ \\
+Consider the loop invariant from the Part-A, we proved \(a=sa_{0}+tb_{0}\) \\
+after the last iteration (when \(b=0\)),  a would be equal to \(gcd(a,b)\) \\
+hence we get \(gcd(a,b)=sa_{0}+tb_{0}\) where \(a_{0} \& b_{0}\) are the starting values a,b
+\\ \\
+now to prove that gcd(a,b) is the smallest positive number in \(sa+tb\) let's consider a positive number of the form \(la+ub\) \\
+let's call \(gcd(a,b)=g\) \\
+Since g divides both a and b so it would also divide \(la+ub\) because \(la/g\) and \(ub/g\) would be positive numbers. so g must be less than or equal to \(la+ub\). In other words, g is the smallest positive number in the form \(la+ub\). Hence Proved.
+
+\subsection*{1.3 Part C}
+% Sub question
+\vspace{10pt}
+Since n and p are relatively prime the \(gcd(n,p) = 1\) \\
+From Bezout's Lemma we have \(gcd(n,p)=xn+yp = 1\) where x and y are integers
+\begin{gather}
+xn+yp = 1 \nonumber \\
+xn = 1 - yp \quad \text{[taking (mod p) on both sides]} \nonumber \\
+xn \text{(mod p)} = 1-yp \text{(mod p)} \nonumber \\
+xn \text{(mod p)} = \text{1 mod p} \quad [as \text{ yp (mod p)=0}] \nonumber \\
+\text{Let x (mod p) be a natural number m, such that } 0<=m<p \nonumber \\
+n*m=\text{1 mod p} \quad \text{[where m is a unique number x (mod p)]}
+\nonumber
+\end{gather}
+
+\subsection*{1.4 Part D}
+% Sub question
+\vspace{10pt}
+
+In Part C we proved if n and p are relatively prime numbers then \(n*m=1 \quad mod \quad p\) where m is a unique number \(x (mod \quad p)\) that is the modulo inverse, x being the value returned from extended Euclid's algorithm. 
+\\ \\
+\((g, x, y)=Extended\_gcd(n, p)\) substituting \(n=13113 \quad and \quad p=2133555512\) we get \\
+\(g=1 \quad \& \quad x=572234785 \quad \& \quad y=-3517\) \\
+\(m=572234785 ( mod \quad 2133555512)\) \\
+\(m=572234785\)
+
+\section*{Problem 2}
+
+% Question
+
+\subsection*{2.1 Part A}
+% Sub question
+\vspace{10pt}
+
+\begin{algorithmic}
+\Procedure{tradeSum}{Arr, i, j} \\
+\text{\#precond : \(0<= i,j <=n\) and \(i<=j\)}
+\State $n \gets len(Arr)$ \quad \text{\# initialize n to length}
+\State $sumArr \gets [0]*n$
+\State $sumArr[0] \gets Arr[0]$
+\For {$k: 1 \to n-1$} \quad \text{\#calculate cumulative sum}
+\State $sumArr[k] \gets sumArr[k-1]+Arr[k]$
+\EndFor
+\If{$i$ is 0} 
+\Return $sumArr[j]$
+\EndIf
+\Return $sumArr[j]-sumArr[i-1]$ \quad \text{\#return the range sum}
+\EndProcedure
+\end{algorithmic}
+
+In the pre-processing step of the above algorithm, we store the cumulative sum at each trade. This is done so that the queries can be done in O(1) time as it would just be a lookup from the array. As the $j^{th}$ index will have a sum of the first j trades and $i-1^{th}$ index would have the sum of the first i-1 trades, subtracting the two would be the range sum. In the pre-processing step, 2 array lookups are done at each iteration and then added, this is done for all the n trades in the Array.  
+
+
+\subsection*{2.2 Part B}
+% Sub question
+\vspace{10pt}
+
+\begin{algorithmic}
+\Procedure{TradeSum}{Arr, i, j} \\
+\text{\#precond : \(0<= i,j <=n\) and \(i<=j\)}
+\State $n \gets len(Arr)$ \quad \text{\# initialize n to length}
+\State $k \gets \lceil \sqrt{n} \rceil$ \quad \text{\# ceiling of sqrt(n)}
+\State $sumArr \gets [0]*k$
+\For {$u: 0 \to n$} \quad \text{\#calculate cumulative sum}
+\State $ind \gets \lfloor u/k\rfloor$ \quad \text{\# find the slice to store the sum to}
+\State $sumArr[ind] \gets sumArr[ind]+Arr[u]$
+\EndFor
+\State $sum \gets 0$
+\While{$(i+1)\%k!=0 \&\& i<=j$}
+\State $sum \gets sum+Arr[i]$
+\State $i \gets i+1$
+\EndWhile
+\While{$i+k<=j$}
+\State $sum \gets sum+sumArr\lfloor(i/k)\rfloor$
+\State $i \gets i+k$
+\EndWhile
+\While{$i<=j$}
+\State $sum \gets sum+Arr[i]$
+\State $i \gets i+1$
+\EndWhile
+\Return $sum$
+\EndProcedure
+\end{algorithmic}
+
+To only use space of \(O(\sqrt{n})\) we create \(\sqrt{n}\) number of slices of the array sized n and store the sum of each of these slices. This way space used is at max \(\sqrt{n}+1 \quad or \quad O(\sqrt{n})\) and the pre-processing time is \(O(n)\) as to calculate each slice sum all elements would have to be scanned at least once. Next, for the query, we would need a \(O(\sqrt{n})\) time to return the sum. the first scan is from I to the end of its slice, then each slice of \(i+k\) till j is directly added, and then the remaining j elements in the last slice. In the worst case, we would have to iterate over all the elements in our summArr and hence a time complexity of \(O(\sqrt{n})\).
+
+\subsection*{2.3 Part C}
+% Sub question
+\vspace{10pt}
+
+\begin{algorithmic}
+\Procedure{findLargestIndex}{A, x} \\
+assert ( $A[ 0 ] <= x$ )
+\State $n \gets len(A)$
+\If{$x>=A[n-1]$}
+    \Return $n-1$
+\EndIf
+\State $l \gets 0$
+\State $u \gets n-1$  \\
+\text{\#Loop Invariant : $0 <= l < u < n \quad and \quad A[ l ] <= x < A[ u ]$}
+\While{$l<u-1$}
+\State $mid \gets \lfloor(a+b)/2\rfloor$
+\If{$A[mid]=x$}
+\Return $mid$
+\ElsIf{$A[mid]<x$}
+\State $l \gets mid$
+\Else
+\State $u \gets mid$
+\EndIf
+\EndWhile
+\Return $l$
+\EndProcedure
+\end{algorithmic}
+
+We start with the lower pointer at 0 and the upper pointer at 1 and find the mid, if the mid is lesser than our search we update low to mid else high is updated to mid, this way we are eliminating half our search space at each iteration. To satisfy the loop invariant we are not updating to low and upper to \(mid-1\) and \(mid+1\) as doing so would cause the \(x<A[u]\) to fail at the end of the last iteration of the loop. Rather the condition in the while loop is \(l<u-1\) so that it does terminate and no element is missed to be checked.
+
+\subsection*{2.4 Part D}
+% Sub question
+\vspace{10pt}
+
+\begin{algorithmic}
+\Procedure{negativeTrade}{Arr, i, j} \\
+\text{\#precond : \(0<= i,j <=n\) and \(i<=j)\)}
+\State $n \gets len(Arr)$ \quad \text{\# initialize n to length}
+\State $negInd \gets [-1]*n$
+\If{$Arr[n-1] < 0$}
+\State $negInd[n-1] \gets n-1$
+\EndIf
+\For {$k: n-2 \to 0$} \quad \text{\# build the pre-processing array}
+\If{$Arr[k] < 0$} 
+\State $negInd[k] \gets k$ \quad \text{\# store the index of negative element}
+\Else
+\State $negInd[k] \gets negInd[k+1]$ \quad \text{\# else store same as right neighbour}
+\EndIf
+\EndFor
+\If{$negInd[i] \leq j$} 
+\Return $negInd[i]$
+\EndIf
+\Return "No" \quad \text{\# no negative trades}
+\EndProcedure
+\end{algorithmic}
+
+In the pre-processing step, the algorithm iterates from right to left and stores the index, if a negative number is found else, it keeps the same value as its right neighbor. This way to check if a negative number is present for a given range all we check is that the value in the negInd array at the $i^{th}$ index is less than or equal to the value at $j^{th}$ index, then we know for sure that there is at least one negative number in that range. 
+\end{document}
