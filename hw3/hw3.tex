@@ -1,0 +1,256 @@
+\documentclass[12pt]{article}
+\usepackage{blindtext}
+%%\usepackage{parskip}
+% \usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{graphs,quotes,arrows.meta}
+\usepackage{algorithm}
+\usepackage{forloop}
+\usepackage[noend]{algpseudocode}
+\usepackage[english]{babel}
+% \usepackage{amsthm}
+% \usepackage{amsfonts}
+% \usepackage{tikz}
+% \usepackage[plain]{algorithm}
+% \usepackage{algpseudocode}
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\title{CSCI 5454: Algorithms: Homework 3}
+\author{Ashutosh Gandhi}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 1}
+
+% Question
+
+\subsection*{1.1 Part A} 
+
+% Sub question
+\vspace{10pt}
+
+% \textbf{Soln:} 
+
+% Solution.
+
+\begin{equation}
+\begin{aligned}
+\nonumber
+p(x)&=\sum_{k=0}^{n-1} a_kx^k \\
+&=a_0+a_1x^1+a_2x^2+.....+a_{n/2-1}x^{n/2-1}+a_{n/2}x^{n/2}+a_{n/2+1}x^{n/2+1}+.....+a_{n-1}x^{n-1} \\
+&=\sum_{k=0}^{n/2-1} a_kx^k+x^{n/2}[a_{n/2+0}x^{0}+a_{n/2+1}x^{1}+.....+a_{n/2+(n/2-1)}x^{n/2-1}] \\
+&=\sum_{k=0}^{n/2-1} a_kx^k +x^{n/2} \sum_{k=0}^{n/2-1} a_{n/2+k}x^{k} \\
+p(x)&=p_1(x)+x^{n/2}p_2(x) \\
+\end{aligned}
+\end{equation}
+
+\subsection*{1.2 Part B} 
+
+% Sub question
+\vspace{-1pt}
+
+\begin{equation}
+\begin{aligned}
+\nonumber
+A_{2j}&=\sum_{k=0}^{n-1} a_k(\omega_n^{2j})^k \\
+&=\sum_{k=0}^{n-1} a_k(\omega_{n/2}^{j})^k \\
+&=a_0+a_1\omega_{n/2}^{j}+a_2\omega_{n/2}^{2j}+......+a_{n/2}(\omega_{n/2}^{j})^{n/2}+a_{n/2+1}(\omega_{n/2}^{j})^{n/2+1}+.....+a_{n-1}(\omega_{n/2}^{j})^{n-1} \\
+&=[a_0+a_{n/2}(\omega_{n/2}^{n/2})^j] + [a_1\omega_{n/2}^j + a_{n/2+1}(\omega_{n/2}^{n/2})^j(\omega_{n/2}^j)] + ..... + [a_{n/2-1}(\omega_{n/2}^j)^{n/2-1} + a_{n-1}(\omega_{n/2}^{j})^{n/2+n/2-1}] \\
+&=[a_0+a_{n/2}]+(\omega_{n/2}^j)[a_1+a_{n/2+1}]+.....+(\omega_{n/2}^j)^{n/2-1}[a_{n/2-1}+a_{n-1}(\omega_{n/2}^{n/2})^j] \quad (\omega_{n/2}^{n/2}=1) \\
+&=[a_0+a_{n/2}]+(\omega_{n/2}^j)[a_1+a_{n/2+1}]+.....+(\omega_{n/2}^j)^{n/2-1}[a_{n/2-1}+a_{n-1}] \\
+&=b_0+b_1\omega_{n/2}^j+.....+b_{n/2-1}(\omega_{n/2}^j)^{n/2-1} \quad (given \quad b_k=a_k+a_{n/2+k}) \\
+&=\sum_{k=0}^{n/2-1} b_k(\omega_{n/2}^{j})^k \\ 
+A_{2j}&=B_j \\
+\end{aligned}
+\end{equation}
+
+
+\subsection*{1.3 Part C}
+% Sub question
+\vspace{10pt}
+
+\begin{equation}
+\begin{aligned}
+\nonumber
+A_{2k+1}&=\sum_{j=0}^{n-1} a_k(\omega_n^{2k+1})^j \\
+&=\sum_{j=0}^{n-1} a_k(\omega_n^{2k})^j\omega_n^j \\
+&=\sum_{j=0}^{n-1} a_k(\omega_{n/2}^{k})^j\omega_n^j \\
+&=a_0+a_1(\omega_{n/2}^{k})\omega_n^1+.....+a_{n/2}(\omega_{n/2}^{k})^{n/2}\omega_n^{n/2}+a_{n/2+1}(\omega_{n/2}^{k})^{n/2+1}\omega_n^{n/2+1}+.....+a_{n-1}(\omega_{n/2}^{k})^{n-1}\omega_n^{n-1} \\
+&=[a_0+a_{n/2}(\omega_{n/2}^{n/2})^{k}\omega_2]+[a_1(\omega_{n/2}^{k})\omega_n^1+a_{n/2+1}(\omega_{n/2}^{n/2})^{k}\omega_{n/2}^{k}\omega_n^{n/2}\omega_n^{1}]+..... \\ &\quad + [a_{n/2-1}(\omega_{n/2}^{k})^{n/2-1}\omega_n^{n/2-1}+a_{n-1}(\omega_{n/2}^{n/2+n/2-1})^k\omega_n^{n/2+n/2-1}] \\
+&=[a_0-a_{n/2}]+\omega_{n/2}^{k}\omega_n^1[a_1+a_{n/2+1}\omega_2]+..... \\ &\quad + [a_{n/2-1}(\omega_{n/2}^{k})^{n/2-1}\omega_n^{n/2-1}+a_{n-1}(\omega_{n/2}^{k})^{n/2-1}(\omega_{n/2}^{k})^{n/2}\omega_n^{n/2-1}\omega_n^{n/2}] \\
+&=[a_0-a_{n/2}]+\omega_{n/2}^{k}\omega_n^1[a_1-a_{n/2+1}]+..... + (\omega_{n/2}^{k})^{n/2-1}\omega_n^{n/2-1}[a_{n/2-1}+a_{n-1}\omega_2] \\
+&=\omega_{n/2}^0[a_0-a_{n/2}]+\omega_{n/2}^{k}\omega_n^1[a_1-a_{n/2+1}]+..... + (\omega_{n/2}^{k})^{n/2-1}\omega_n^{n/2-1}[a_{n/2-1}-a_{n/2+(n/2-1)}] \\
+&=c_0+\omega_{n/2}^{k}c_1+.....+(\omega_{n/2}^{k})^{n/2-1}c_k \quad (given \quad c_j=(a_j-a_{n/2+k})*
+\omega_n^j) \\ 
+&=\sum_{j=0}^{n/2-1} c_k(\omega_{n/2}^{k})^j \\
+A_{2k+1}&=C_k
+\end{aligned}
+\end{equation}
+
+\subsection*{1.4 Part D}
+% Sub question
+\vspace{10pt}
+
+\begin{algorithmic}
+\Procedure{Recursive-FFT}{a}
+\State $n \gets len(A)$ \quad \textf{\# n is power of 2}
+\If{$n==1$}
+    \textf{\# base case goes here}
+\EndIf
+\State $\omega_n \gets e^{2\pi i/n}$
+\State $\omega \gets 1$
+\State $a^{[0]} \gets (a_0, a_1, a_2, ...., a_{n/2-1})$
+\State $a^{[1]} \gets (a_{n/2},a_{n/2+1}, ....., a_{n-1})$
+\State $y^{[0]} \gets Recursive-FFT(a^{[0]})$
+\State $y^{[1]} \gets Recursive-FFT(a^{[1]})$
+\For {$k = 0 \quad to \quad n/2 -1$}
+\State $y_{2k}=y_k^{[0]}+ y_k^{[1]}$ \quad \#\textf{proved in 1.b}
+\State $y_{2k+1}=(y_k^{[0]}- y_k^{[1]})*\omega$ \quad \#\textf{proved in 1.c}
+\State $\omega \gets \omega\omega_n$
+\EndFor
+\Return $y$
+\EndProcedure
+\end{algorithmic}
+
+
+The time complexity of the above algorithm is: 
+\begin{equation}
+\begin{aligned}
+\nonumber
+T(n)&=2T(n/2)+n/2 \\
+T(n)&=O(nlog(n))
+\end{aligned}
+\end{equation}
+
+
+\section*{Problem 2}
+
+% Question
+
+\subsection*{2.1 Part A} 
+
+% Sub question
+\vspace{10pt}
+\begin{enumerate}
+\item Recursively divide the given set of files into 2 halves each of similar length. (0 to n/2-1 and n/2 to n-1) 
+\item The base case is when there is only 1 file in that case return that file number
+\item Compare the file from the left and right halves if they are the same then return the file number. The file comparison is done using rapid bitwise comparison.  
+\item Otherwise check if the number of occurrences of the left file in the left half and right file in the right half and return the left file if left count is more else return the right file. --- $O(n)$
+\item the file number returned by the above function is a possible candidate for a majority. 
+\item to confirm it, compare the file with each of the n files and check if the count is more than the majority of files.
+\item print the file if the count is more than half the size of n else print none. --- $O(n)$ 
+\end{enumerate}
+
+The time complexity of the algorithm is: 
+\begin{equation}
+\begin{aligned}
+\nonumber
+T(n)&=2T(n/2)+O(2n)+O(n) \\
+T(n)&=2T(n/2)+O(n) \quad \textf{\# from \quad master \quad theorem} \\
+T(n)&=O(nlog(n))
+\end{aligned}
+\end{equation}
+
+\subsection*{2.2 Part B} 
+
+% Sub question
+\vspace{10pt}
+\begin{enumerate}
+\item create pairs (i, i+1) from the list of n files. 
+\item if both the files in the pair are the same then add one of them to a list of candidates
+\item in case n is odd then discard one file and recurse over the remaining n-1 files.
+\item Recursively computes the new set of candidates by forming pairs from the previous candidates. 
+\item the base case being when only one file is remaining in the set return it. 
+\item The file returned by the above function is a possible majority candidate, to confirm it counts the number of matches between the file returned and all the other files. 
+\item print the file if the count is more than half the size of n else print none.
+\end{enumerate}
+
+The time complexity of the algorithm is: 
+\begin{equation}
+\begin{aligned}
+\nonumber
+T(n)&=T(n/2)+O(n)+O(n) \quad \textf{\# solving \quad the \quad recurrence} \\
+T(n)&=O(n)
+\end{aligned}
+\end{equation}
+
+\section*{Problem 3}
+
+% Question
+
+(i) The time taken for each step is:
+
+\begin{enumerate}
+   \item Sort the points using their x coordinates. --- $O(nlog(n))$
+   \item Recursively carry out the following steps:
+   \begin{enumerate}
+    \item If the number of points is less than 10 just do pairwise comparisons. --- $C_0$
+    \item Otherwise, split the list into two lists of size n/2 along the median x coordinate. --- $C_0$
+    \item Recursively compute the closest pair for both halves. --- $2T(n/2)$
+    \item Take the minimum of the two distances obtained from the two calls. --- $C_0$
+    \item Sort the points in the “central strip” along the y coordinate. --- $O(nlog(n))$
+    \item Iterate through the list and compare each point in the sorted list from the previous step to the eight previous points. --- $O(n)$
+   \end{enumerate}
+\end{enumerate}
+
+The time complexity of the recursive step is: 
+\begin{equation}
+\begin{aligned}
+\nonumber
+T(n)&=2T(n/2)+O(nlog(n)) \\
+T(n)&=O(n(log(n))^2)
+\end{aligned}
+\end{equation}
+
+The overall time complexity of the algorithm is: 
+\begin{equation}
+\begin{aligned}
+\nonumber
+T(n)&=O(nlog(n)) + O(n(log(n))^2) \quad \textf{(1 \quad merge \quad and \quad recursive \quad part)} \\
+T(n)&=O(n(log(n))^2)
+\end{aligned}
+\end{equation}
+\\ \\ \\
+(ii) an $O(nlog(n))$ algorithm 
+\begin{enumerate}
+   \item Sort the points using their x coordinates $P_x$. --- $O(nlog(n))$
+    \item Sort the points using their y coordinates $P_y$. --- $O(nlog(n))$
+   \item Recursively carry out the following steps:
+   \begin{enumerate}
+    \item If the number of points is less than 10 just do pairwise comparisons. --- $C_0$
+    \item Otherwise, split the list into two lists of size n/2 along the median x coordinate $P_{xl} \& P_{xr}$. --- $C_0$
+    \item maintain the corresponding split in $P_y$. This can be done by comparing the x coordinates in $P_y$ with the median x coordinate and calculating $P_{yl} \& P_{yr}$. --- $O(n)$  
+    \item Recursively compute the closest pair for both halves. --- $2T(n/2)$
+    \item Take the minimum of the two distances obtained from the two calls. --- $C_0$
+    \item Iterate through the "central strip" list $P_y$ and compare each point in the sorted list from the previous step to the eight previous points. --- $O(n)$
+   \end{enumerate}
+\end{enumerate}
+
+The time complexity of the recursive step is: 
+\begin{equation}
+\begin{aligned}
+\nonumber
+T(n)&=2T(n/2)+O(n) \\
+T(n)&=O(nlog(n))
+\end{aligned}
+\end{equation}
+
+The overall time complexity of the algorithm is: 
+\begin{equation}
+\begin{aligned}
+\nonumber
+T(n)&=O(nlog(n)) + O(nlog(n)) + O(nlog(n)) \quad \textf{(2 \quad merges \quad and \quad recursive \quad part)} \\
+T(n)&=O(nlog(n))
+\end{aligned}
+\end{equation}
+
+\end{document}
