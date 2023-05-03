@@ -1,0 +1,119 @@
+\documentclass[12pt]{article}
+\usepackage{blindtext}
+%%\usepackage{parskip}
+% \usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{graphs, quotes, arrows.meta}
+\usepackage{algorithm}
+\usepackage{forloop}
+\usepackage{minted}
+\usepackage[noend]{algpseudocode}
+\usepackage[english]{babel}
+% \usepackage{amsthm}
+% \usepackage{amsfonts}
+% \usepackage{tikz}
+% \usepackage[plain]{algorithm}
+% \usepackage{algpseudocode}
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\title{CSCI 5454: Algorithms: Exam 2 makeup}
+\author{Ashutosh Gandhi}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 1}
+
+% Question
+
+% Sub question
+\vspace{10pt}
+
+% \textbf{Soln:} 
+
+% Solution.
+
+To get a perfectly balanced tree when inserting the numbers 1 to n, we would first have to insert the median element in the range 1 to n, let that be m. So the root of the tree is m and the left child would be the median element of the range 1 to m and the right child would be the median element of the range m to n. Then recurse in a similar way for the left and right child nodes until we reach a range with only 1 element. 
+
+we have \(n=2^k-1\), and \(P_k\) be the probability to get a balanced tree with \(2^k-1\) nodes, then \\
+\(P_k\) = P(select median)*P(balanced left sub-tree\(|\)median is selected)*P(balanced right sub-tree\(|\)median is selected) \\
+both to the left and right of the median there are \(2^{k-1}-1\) elements and the probability of making a balanced tree with them would be \(P_{k-1}\) \\
+\(P_k = 1/n*P_{k-1}*P_{k-1}\) with \(P_1=1\) (tree with one node is already perfectly balanced) \\
+\(P_k=\frac{1}{2^k-1}*(P_{k-1}^2)\) \\
+Based on the above recurrence calculating \(P_5\)
+\begin{equation}
+\begin{aligned}
+\nonumber
+P_2 &= 1/3*1^2 = 1/3 \\
+P_3 &= 1/7*(1/3)^2 \\
+P_4 &= 1/15*(1/7)^2*(1/3)^4 \\
+P_5 &= 1/31*(1/15)^2*(1/7)^4*(1/3)^8 = 1/109876902975 \\
+\end{aligned}
+\end{equation}
+\\
+The probability of getting a perfectly balanced tree when inserting 1...31 nodes is 1/109876902975.
+
+\section*{Problem 2}
+
+\subsection*{2.1 Part A}
+P(one sweet not being consume for k days) = \(1/2^k\) (getting tails on each of the k days) \\
+P(consuming the sweet in k days) = \(1 -1/2^k\) \\
+P(consuming all n sweets in k days) = \((1 -1/2^k)^n\) \\
+P(not consuming all n sweets in k days) = \(1-(1 -1/2^k)^n\)
+
+\subsection*{2.1 Part B}
+Let X be a random variable indicating the time taken to eat the sweet. \\
+From the 2a we have \(P(X\ge k) = 1-(1 -1/2^k)^n\) \\
+The expected time to eat all the sweets is: \\
+\begin{equation}
+\begin{aligned}
+\nonumber
+E(X)&=P(X\ge 1)+P(X\ge 2)+P(X\ge 3)+... \\
+E(X)&=[1-(1-1/2)^n] + [1-(1 -1/2^2)^n] + [1-(1 -1/2^3)^n] + ... \\
+E(X)&=\sum_{k=1}^{\infty} 1 - (1-\frac{1}{2^k})^n
+\end{aligned}
+\end{equation}
+
+
+\subsection*{2.1 Part C}
+
+Applying Bernoulli's inequality to the series in 2.2 we get: 
+\begin{equation}
+\begin{aligned}
+\nonumber
+(1-\frac{1}{2^k})^n &\ge (1-\frac{n}{2^k}) \\
+1-(1-\frac{1}{2^k})^n &\leq 1-(1-\frac{n}{2^k}) \quad \text{\# simplifying} \\
+1-(1-\frac{1}{2^k})^n &\leq \frac{n}{2^k} \quad \text{\# summation on both sides}\\
+\sum_{k=1}^{\infty} 1-(1-\frac{1}{2^k})^n &\leq \sum_{k=1}^{\infty} \frac{n}{2^k} \\
+\sum_{k=1}^{log_{2}n} 1-(1-\frac{1}{2^k})^n + \sum_{k=log_{2}n+1}^{\infty} 1-(1-\frac{1}{2^k})^n &\leq \sum_{k=1}^{log_2n} \frac{n}{2^k} + \sum_{k=log_2n+!}^{\infty} \frac{n}{2^k} \\
+\end{aligned}
+\end{equation}
+
+For k in \([1, log_2n]\), \(1-(1-\frac{1}{2^k})^n \leq 1 \) \\
+\begin{equation}
+\begin{aligned}
+\nonumber
+1-(1-\frac{1}{2^k})^n &\leq 1 \\
+\sum_{k=1}^{log_{2}n} 1-(1-\frac{1}{2^k})^n &\leq \sum_{k=1}^{log_{2}n} 1 \\
+\sum_{k=1}^{log_{2}n} 1-(1-\frac{1}{2^k})^n &\leq log_{2}n \\
+\end{aligned}
+\end{equation}
+Solving \(\sum_{k=log_2n+1}^{\infty} \frac{n}{2^k}\) using infinite GP sum
+\begin{equation}
+\begin{aligned}
+\nonumber
+S&=\frac{n}{2n}+\frac{n}{2^2n}+\frac{n}{2^3n}+... \\
+S&=\frac{1/2}{1-1/2} \\
+S&=1
+\end{aligned}
+\end{equation}
+Thus, \(\sum_{k=1}^{\infty} 1-(1-\frac{1}{2^k})^n &\leq log_2n+1\)
+\end{document}
